@@ -11,6 +11,7 @@ const QZone = () => {
                 <img className='w-full' src={image} alt="" />
                 <img className='w-full' src={image1} alt="" />
                 <img className='w-full' src={image2} alt="" />
+              
             </div>
         </div>
     );
