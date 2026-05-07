@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   return (
@@ -67,7 +68,7 @@ const Login = () => {
 
           {/* Google Login */}
           <button className="btn btn-outline w-full">
-            Continue with Google
+          <FaGoogle />  Continue with Google
           </button>
 
           {/* Register */}

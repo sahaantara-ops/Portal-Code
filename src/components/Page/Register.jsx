@@ -1,7 +1,33 @@
 import React from "react";
 import { Link } from "react-router";
+import { FaGoogle } from "react-icons/fa";
+import { use } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
+    const {createUser,setUser} = use(AuthContext);
+    const handleRegister = (e) => {
+        e.preventDefault();
+        console.log("e.target");
+        const form = e.target;
+        const name = form.name.value;
+        const photo = form.photoUrl.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        
+
+        console.log({name,photo,email,password});
+        createUser(email,password).then(result =>{
+            const user = result.user;
+            // console.log(user);
+            setUser(user);
+        })
+        .catch(error =>{
+            console.error(error);
+            alert(error.message);
+        });
+
+    }
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
       <div className="card w-full max-w-md shadow-2xl bg-base-100">
@@ -10,7 +36,7 @@ const Register = () => {
             Create Account
           </h1>
 
-          <form className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4">
             {/* Name */}
             <div>
               <label className="label">
@@ -19,8 +45,10 @@ const Register = () => {
 
               <input
                 type="text"
+                name="name"
                 placeholder="Enter your full name"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
@@ -32,6 +60,7 @@ const Register = () => {
 
               <input
                 type="text"
+                name="photoUrl"
                 placeholder="Enter photo URL"
                 className="input input-bordered w-full"
               />
@@ -45,8 +74,10 @@ const Register = () => {
 
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
@@ -58,25 +89,14 @@ const Register = () => {
 
               <input
                 type="password"
+                name="password"
                 placeholder="Enter password"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
-            {/* Confirm Password */}
-            <div>
-              <label className="label">
-                <span className="label-text font-medium">
-                  Confirm Password
-                </span>
-              </label>
-
-              <input
-                type="password"
-                placeholder="Confirm password"
-                className="input input-bordered w-full"
-              />
-            </div>
+          
 
             {/* Terms */}
             <div className="flex items-center gap-2">
@@ -91,7 +111,7 @@ const Register = () => {
             </div>
 
             {/* Register Button */}
-            <button className="btn btn-primary w-full mt-2">
+            <button  type="submit" className="btn btn-primary w-full mt-2">
               Register
             </button>
           </form>
@@ -101,7 +121,7 @@ const Register = () => {
 
           {/* Google Register */}
           <button className="btn btn-outline w-full">
-            Continue with Google
+            <FaGoogle />Continue with Google
           </button>
 
           {/* Login Link */}
