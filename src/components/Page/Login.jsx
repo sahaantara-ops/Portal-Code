@@ -1,8 +1,28 @@
 import React from 'react';
 import { Link } from "react-router";
 import { FaGoogle } from "react-icons/fa";
+import { useContext } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Login = () => {
+  const {signIn} = useContext(AuthContext);
+  const handleLogin = (e)=>{
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log({email,password});
+    
+  signIn(email, password)
+  .then(result => {
+    console.log(result.user);
+    alert("login successful");
+  })
+  .catch(error => {
+    console.log(error.code);
+    alert(error.message);
+  });
+  }
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
       <div className="card w-full max-w-md shadow-2xl bg-base-100">
@@ -11,15 +31,17 @@ const Login = () => {
             Login Now
           </h1>
 
-          <form className="space-y-4">
+          <form  onSubmit={handleLogin} className="space-y-4">
             {/* Email */}
             <div>
               <label className="label">
+
                 <span className="label-text font-medium">Email</span>
               </label>
 
               <input
                 type="email"
+                name='email'
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
               />
@@ -33,6 +55,7 @@ const Login = () => {
 
               <input
                 type="password"
+                name='password'
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
               />
@@ -58,7 +81,7 @@ const Login = () => {
             </div>
 
             {/* Login Button */}
-            <button className="btn btn-primary w-full mt-2">
+            <button type="submit" className="btn btn-primary w-full mt-2">
               Login
             </button>
           </form>
