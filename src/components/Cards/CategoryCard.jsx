@@ -8,11 +8,12 @@ import {
   FaRegBookmark,
   FaShareAlt,
 } from "react-icons/fa";
-
+import { Link } from "react-router";
 const CategoryCard = ({ news }) => {
   const [bookmarked, setBookmarked] = useState(false);
 
   const {
+    id,
     title,
     thumbnail_url,
     total_view,
@@ -32,7 +33,7 @@ const CategoryCard = ({ news }) => {
         url: window.location.href,
       });
     } catch (error) {
-      console.log("Sharing cancelled");
+      console.log("error while sharing");
     }
   };
 
@@ -118,9 +119,9 @@ const CategoryCard = ({ news }) => {
     ? (
         <>
           {details.slice(0, 140)}...
-          <button className="text-primary font-semibold ml-1 hover:underline">
+          <Link to = {`/news-details/${id}`} className="text-primary font-semibold ml-1 hover:underline">
             Read More
-          </button>
+          </Link>
         </>
       )
     : (

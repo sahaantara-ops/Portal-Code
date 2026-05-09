@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from "react-router";
 import { FaGoogle } from "react-icons/fa";
-import { useContext } from 'react';
-import { AuthContext } from '../../Provider/AuthProvider';
+import { use} from 'react';
+import  AuthContext  from '../../Provider/authContext';
 
 const Login = () => {
-  const {signIn} = useContext(AuthContext);
+  const {signIn} = use(AuthContext);
   const handleLogin = (e)=>{
     e.preventDefault();
     const form = e.target;
@@ -13,14 +13,14 @@ const Login = () => {
     const password = form.password.value;
     console.log({email,password});
     
-  signIn(email, password)
+  signIn(email,password)
   .then(result => {
     console.log(result.user);
     alert("login successful");
   })
   .catch(error => {
     console.log(error.code);
-    alert(error.message);
+    
   });
   }
   return (

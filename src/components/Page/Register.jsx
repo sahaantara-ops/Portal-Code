@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaGoogle } from "react-icons/fa";
-import { use } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
+
+import  AuthContext  from "../../Provider/authContext";
+import { useContext } from "react";
 
 const Register = () => {
-    const {createUser,setUser} = use(AuthContext);
+    const {createUser,setUser} = useContext(AuthContext);
     const handleRegister = (e) => {
         e.preventDefault();
         console.log("e.target");
