@@ -1,11 +1,17 @@
 import React from 'react';
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaGoogle } from "react-icons/fa";
-import { use} from 'react';
+import { useContext,useState} from 'react';
 import  AuthContext  from '../../Provider/authContext';
 
 const Login = () => {
-  const {signIn} = use(AuthContext);
+  const [error, setError] = useState("");
+  console.log(error);
+const { signIn } = useContext(AuthContext);
+const location = useLocation();
+const navigate = useNavigate();
+console.log(location);
+
   const handleLogin = (e)=>{
     e.preventDefault();
     const form = e.target;
@@ -14,13 +20,19 @@ const Login = () => {
     console.log({email,password});
     
   signIn(email,password)
-  .then(result => {
-    console.log(result.user);
+  .then((result) => {
+    const user = result.user;
+    console.log(user);
+    navigate(`${location.state ? location.state : "/"}`);
+
+
     alert("login successful");
   })
   .catch(error => {
+    const errorCode = error.code;
     console.log(error.code);
     
+    setError(errorCode);
   });
   }
   return (
@@ -44,6 +56,7 @@ const Login = () => {
                 name='email'
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
@@ -58,7 +71,11 @@ const Login = () => {
                 name='password'
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
+                required
               />
+              {
+                error && <p className='text-red-500 text-sm mt-1'>{error}</p>
+              }
 
               <div className="text-right mt-2">
                 <a

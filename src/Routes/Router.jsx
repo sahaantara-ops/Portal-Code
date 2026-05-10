@@ -7,6 +7,7 @@ import Register from "../components/Page/Register";
 import AuthLayout from "../Layout/AuthLayout";
 import NewsDetails from "../components/Page/NewsDetails";
 import PrivateRoute from "../Provider/PrivateRoute";
+import Loading from "../components/Page/Loading";
 const router = createBrowserRouter(
     [
         {
@@ -20,7 +21,8 @@ const router = createBrowserRouter(
                   {
                     path:"/category/:id",
                     element:<CategoryNews></CategoryNews>,
-                    loader: ()=> fetch("/news.json")
+                    loader: ()=> fetch("/news.json"),
+                    hydrateFallbackElement:<Loading></Loading>
                 }
             ]
         },
@@ -45,6 +47,7 @@ const router = createBrowserRouter(
             <NewsDetails></NewsDetails>
         </PrivateRoute>,
         loader:()=> fetch("/news.json"),
+        hydrateFallbackElement:<Loading></Loading>,
         },
         {
             path:"/*",

@@ -1,17 +1,25 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaGoogle } from "react-icons/fa";
-
+import { useState } from "react";
 import  AuthContext  from "../../Provider/authContext";
 import { useContext } from "react";
 
 const Register = () => {
     const {createUser,setUser} = useContext(AuthContext);
+     const [nameError, setNameError] = useState("");
     const handleRegister = (e) => {
+     
         e.preventDefault();
         console.log("e.target");
         const form = e.target;
         const name = form.name.value;
+        if(name.length < 5) {
+            setNameError("Name must be at least 5 characters long");
+            return;
+        } else {
+            setNameError("");
+        }
         const photo = form.photoUrl.value;
         const email = form.email.value;
         const password = form.password.value;
@@ -52,6 +60,7 @@ const Register = () => {
                 required
               />
             </div>
+              {nameError && <p className="text-red-500 text-sm">{nameError}</p>}
 
             {/* Photo URL */}
             <div>
