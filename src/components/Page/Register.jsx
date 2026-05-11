@@ -4,10 +4,12 @@ import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import  AuthContext  from "../../Provider/authContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 const Register = () => {
     const {createUser,setUser, googleSignIn} = useContext(AuthContext);
      const [nameError, setNameError] = useState("");
+     const navigate = useNavigate();
     const handleRegister = (e) => {
      
         e.preventDefault();
@@ -37,18 +39,20 @@ const Register = () => {
         });
 
     }
-    const handleGoogleSignIn = () => {
+   const handleGoogleSignIn = () => {
 
-    googleSignIn()
-        .then(result => {
+  googleSignIn()
+    .then(result => {
 
-            const user = result.user;
-            console.log(user);
+      const user = result.user;
+      console.log(user);
 
-        })
-        .catch(error => {
-            console.log(error);
-        });
+      navigate(location?.state ? location.state : "/");
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
 }
   return (
@@ -144,8 +148,8 @@ const Register = () => {
           <div className="divider">OR</div>
 
           {/* Google Register */}
-          <button onClick={handleGoogleSignIn}  className="btn btn-outline w-full">
-            <FaGoogle />Continue with Google
+         <button onClick={handleGoogleSignIn} className="btn btn-outline w-full">
+                   <FaGoogle />  Continue with Google
           </button>
 
           {/* Login Link */}
