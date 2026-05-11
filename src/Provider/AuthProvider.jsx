@@ -5,49 +5,63 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+   GithubAuthProvider,
+   sendPasswordResetEmail
 } from "firebase/auth";
 
 import app from '../firebase/firebase.config';
-import AuthContext from "./AuthContext";
+import AuthContext from './authContext';
 
 const auth = getAuth(app);
+
+const googleProvider = new GoogleAuthProvider();
+
+const githubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    // console.log(loading,user);
 
     // Register
     const createUser = (email, password) => {
-        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
-    };
+    }
 
     // Login
     const signIn = (email, password) => {
-        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
-    };
+    }
+
+    // Google Login
+    const googleSignIn = () => {
+        return signInWithPopup(auth, googleProvider);
+    }
+
+    const githubSignIn = () => {
+    return signInWithPopup(auth, githubProvider);
+}
 
     // Logout
     const logOut = () => {
         return signOut(auth);
-    };
+    }
+    // Reset Password
+    const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+    }
 
-    // Observer
     useEffect(() => {
 
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            setLoading(false);
         });
 
         return () => {
             unsubscribe();
-        };
+        }
 
     }, []);
 
@@ -56,8 +70,11 @@ const AuthProvider = ({ children }) => {
         setUser,
         createUser,
         signIn,
-        logOut
-    };
+        googleSignIn,
+        githubSignIn,
+        logOut,
+        resetPassword
+    }
 
     return (
         <AuthContext value={authInfo}>

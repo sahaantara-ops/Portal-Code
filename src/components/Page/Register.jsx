@@ -6,7 +6,7 @@ import  AuthContext  from "../../Provider/authContext";
 import { useContext } from "react";
 
 const Register = () => {
-    const {createUser,setUser} = useContext(AuthContext);
+    const {createUser,setUser, googleSignIn} = useContext(AuthContext);
      const [nameError, setNameError] = useState("");
     const handleRegister = (e) => {
      
@@ -37,6 +37,20 @@ const Register = () => {
         });
 
     }
+    const handleGoogleSignIn = () => {
+
+    googleSignIn()
+        .then(result => {
+
+            const user = result.user;
+            console.log(user);
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+}
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
       <div className="card w-full max-w-md shadow-2xl bg-base-100">
@@ -121,7 +135,7 @@ const Register = () => {
             </div>
 
             {/* Register Button */}
-            <button  type="submit" className="btn btn-primary w-full mt-2">
+            <button  onClick={handleGoogleSignIn} type="submit" className="btn btn-primary w-full mt-2">
               Register
             </button>
           </form>
@@ -137,7 +151,7 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center text-sm mt-4">
             Already have an account?{" "}
-            <Link to="/auth/login" className="text-primary font-semibold">
+            <Link to="/auth/login" className="text-shadow-blue-950 font-semibold">
               Login
             </Link>
           </p>

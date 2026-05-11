@@ -4,10 +4,12 @@ import { FaGoogle } from "react-icons/fa";
 import { useContext,useState} from 'react';
 import  AuthContext  from '../../Provider/authContext';
 
+
 const Login = () => {
   const [error, setError] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
   console.log(error);
-const { signIn } = useContext(AuthContext);
+const { signIn, googleSignIn,resetPassword } = useContext(AuthContext);
 const location = useLocation();
 const navigate = useNavigate();
 // console.log(location);
@@ -35,6 +37,39 @@ const navigate = useNavigate();
     setError(errorCode);
   });
   }
+  const handleGoogleSignIn = () => {
+
+  googleSignIn()
+    .then(result => {
+
+      const user = result.user;
+      console.log(user);
+
+      navigate(location?.state ? location.state : "/");
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+}
+const handleForgotPassword = () => {
+
+  if (!resetEmail) {
+    setError("Please enter your email first");
+    return;
+  }
+
+  resetPassword(resetEmail)
+    .then(() => {
+      alert("Password reset email sent!");
+    })
+    .catch(error => {
+      console.log(error);
+      setError(error.message);
+    });
+
+}
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
       <div className="card w-full max-w-md shadow-2xl bg-base-100">
@@ -52,12 +87,13 @@ const navigate = useNavigate();
               </label>
 
               <input
-                type="email"
-                name='email'
-                placeholder="Enter your email"
-                className="input input-bordered w-full"
-                required
-              />
+              type="email"
+              name='email'
+              placeholder="Enter your email"
+              className="input input-bordered w-full"
+              required
+             onChange={(e) => setResetEmail(e.target.value)}
+             />
             </div>
 
             {/* Password */}
@@ -80,7 +116,9 @@ const navigate = useNavigate();
               <div className="text-right mt-2">
                 <a
                   href="#"
-                  className="text-sm link link-hover text-primary"
+                  onClick={handleForgotPassword}
+
+                  className="text-sm text-amber-400 link link-hover "
                 >
                   Forgot password?
                 </a>
@@ -107,14 +145,14 @@ const navigate = useNavigate();
           <div className="divider">OR</div>
 
           {/* Google Login */}
-          <button className="btn btn-outline w-full">
+          <button onClick={handleGoogleSignIn} className="btn btn-outline w-full">
           <FaGoogle />  Continue with Google
           </button>
 
           {/* Register */}
           <p className="text-center text-sm mt-4">
-            Don&apos;t have an account?{" "}
-            <Link to="/auth/register" className="text-primary font-semibold">
+            Don't have an account?{" "}
+            <Link to="/auth/register" className="text-red-600 font-semibold">
               Register
             </Link>
           </p>
