@@ -135,7 +135,7 @@ const Register = () => {
             </div>
 
             {/* Register Button */}
-            <button  onClick={handleGoogleSignIn} type="submit" className="btn btn-primary w-full mt-2">
+            <button  type="submit" className="btn btn-primary w-full mt-2">
               Register
             </button>
           </form>
@@ -144,7 +144,7 @@ const Register = () => {
           <div className="divider">OR</div>
 
           {/* Google Register */}
-          <button className="btn btn-outline w-full">
+          <button onClick={handleGoogleSignIn}  className="btn btn-outline w-full">
             <FaGoogle />Continue with Google
           </button>
 
